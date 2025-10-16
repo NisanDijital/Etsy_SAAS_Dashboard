@@ -5,9 +5,9 @@ import time
 from streamlit_authenticator import Hasher 
 
 # --- GÜVENLİK VE GİRİŞ YAPILANDIRMASI ---
-# Şifreler hash'lenmiştir. (Kolayca 'sifre123' şifresiyle giriş yapabilirsiniz)
+# Kullanıcı Adı: admin, Şifre: sifre123
 USERNAME = "admin"
-PASSWORD_HASH = Hasher(['sifre123']).generate()[0] # Bu, 'sifre123' şifresinin şifreli halidir.
+PASSWORD_HASH = Hasher(['sifre123']).generate()[0] 
 # ---
 
 st.set_page_config(page_title="Giriş", page_icon="🔑", layout="centered")
@@ -24,16 +24,16 @@ with st.form("login_form"):
 # Giriş Kontrolü
 if submitted:
     if user_input == USERNAME:
-        # Girilen şifrenin hash'ini alıp, kayıtlı hash ile karşılaştır
+        # Şifre kontrolü
         if Hasher([password_input]).check_hashes(PASSWORD_HASH, [password_input])[0]:
-            
+
             st.success("Giriş başarılı! Dashboard'a yönlendiriliyorsunuz...")
             st.session_state['logged_in'] = True  # Oturum durumunu kaydet
             time.sleep(0.5)
-            
-            # Dashboard sayfasına yönlendir (pages/01_Dashboard.py)
+
+            # Dashboard sayfasına yönlendir
             st.switch_page("pages/01_Dashboard.py") 
-            
+
         else:
             st.error("Hatalı şifre.")
     else:
